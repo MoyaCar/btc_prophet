@@ -1,0 +1,1 @@
+API_KEY: str = "API KEY HERE"
