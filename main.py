@@ -2,6 +2,7 @@ import logging
 import pandas as pd
 import time
 import json
+from prophet import Prophet
 
 logging.basicConfig(level=logging.INFO)
 
@@ -25,4 +26,10 @@ data_for_pandas = [
 	} for datapoint in price_data
 ]
 df = pd.DataFrame(data_for_pandas).sort_values('timestamp').set_index('timestamp')
-
+print(df)
+prophet_main_df  = df.reset_index().rename(columns={'timestamp': 'ds', 'close': 'y'})[['ds', 'y']]
+model = Prophet()
+model.fit(prophet_main_df)
+future = model.make_future_dataframe(periods=3)
+forecast = model.predict(future)
+print(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail())
