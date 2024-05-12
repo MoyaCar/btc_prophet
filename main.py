@@ -26,7 +26,6 @@ data_for_pandas = [
 	} for datapoint in price_data
 ]
 df = pd.DataFrame(data_for_pandas).sort_values('timestamp').set_index('timestamp')
-print(df)
 prophet_main_df  = df.reset_index().rename(columns={'timestamp': 'ds', 'close': 'y'})[['ds', 'y']]
 model = Prophet()
 model.fit(prophet_main_df)
